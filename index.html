@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Es Cincau Pink - Topeng Ceria</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; transition: 0.3s; }
+        body { font-family: 'Poppins', sans-serif; background-color: #FFF5F7; color: #4a4a4a; line-height: 1.6; }
+        section { padding: 80px 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; text-align: center; }
+
+        /* Hero */
+        .hero { background: #FFC0CB; color: white; }
+        .hero img { width: 100%; max-width: 400px; border-radius: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); margin-bottom: 20px; }
+        
+        /* Manfaat */
+        .benefits-container { max-width: 600px; width: 100%; }
+        .card { background: white; padding: 20px; margin: 15px 0; border-radius: 15px; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.05); text-align: left; }
+        .card h3 { color: #781245; display: flex; justify-content: space-between; }
+        .content { max-height: 0; overflow: hidden; color: #666; }
+        .card.active .content { max-height: 100px; margin-top: 15px; }
+
+        /* Produk & Payment */
+        .product-img { width: 250px; border-radius: 20px; margin-bottom: 20px; border: 5px solid white; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .payment-group { display: flex; gap: 10px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
+        .pay-btn { background: #fff; border: 2px solid #71093d; padding: 10px 20px; border-radius: 10px; font-weight: bold; cursor: pointer; }
+        .pay-btn:hover { background: #e396bd; color: white; }
+
+        /* Modal Pembayaran */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10; justify-content: center; align-items: center; }
+        .modal-content { background: white; padding: 30px; border-radius: 20px; width: 90%; max-width: 300px; text-align: center; }
+        
+        /* Style untuk gambar QR agar pas */
+        #qrImage { width: 100%; max-width: 200px; height: auto; margin-top: 10px; }
+
+        /* Animasi Cincau */
+        .cincau-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
+        .cincau-cube { position: absolute; top: -50px; background-color: #4CAF50; border-radius: 5px; animation: fall linear infinite; }
+        @keyframes fall { to { transform: translateY(100vh); } }
+    </style>
+</head>
+<body>
+
+    <div class="cincau-container" id="cincau-container"></div>
+
+    <section class="hero">
+        <img src="cincau.jpg" alt="Es Cincau Santan Pink">
+        <h1>Es Cincau Santan Pink</h1>
+        <p>Manisnya Tradisi Betawi dan Segarnya Masa Kini.</p>
+    </section>
+
+    <section>
+        <h2 style="color: #840c48; margin-bottom: 30px;">Kenapa Harus Mencoba?</h2>
+        <div class="benefits-container">
+            <div class="card" onclick="this.classList.toggle('active')">
+                <h3>❄️ Kesegaran Alami <span>+</span></h3>
+                <p class="content">Perpaduan santan lembut dan cincau menyejukkan.</p>
+            </div>
+            <div class="card" onclick="this.classList.toggle('active')">
+                <h3>💖 Bahan Premium <span>+</span></h3>
+                <p class="content">Cincau hitam pilihan & santan kualitas terbaik.</p>
+            </div>
+             <div class="card" onclick="this.classList.toggle('active')">
+                <h3>💖 Manfaat Cincau <span>+</span></h3>
+                <p class="content"> melancarkan pencernaan karena kaya serat, menyejukkan tubuh (meredakan panas dalam), dan kaya antioksidan untuk menangkal radikal bebas.</p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <img src="cincau.jpg" alt="Es Cincau" class="product-img">
+        
+        <h2>Siap Menikmati Kesegarannya?</h2>
+        <p style="margin: 10px 0; font-weight: bold;">Rp 10.000 / Gelas</p>
+        
+        <div class="payment-group">
+            <button class="pay-btn" onclick="openPayment('QRIS')">QRIS</button>
+            <button class="pay-btn" onclick="openPayment('DANA')">DANA</button>
+            <button class="pay-btn" onclick="openPayment('GOPAY')">GOPAY</button>
+        </div>
+    </section>
+
+    <div class="modal" id="paymentModal">
+        <div class="modal-content">
+            <h3 id="modalTitle">Pembayaran</h3>
+            <div style="margin: 20px 0; border: 2px dashed #bc216e; padding: 20px;">
+                <p>Scan QR Code Berikut:</p>
+                <img src="img/qris.jpg" alt="QRIS" style="width: 200px; height: auto;">
+                <img id="qrImage" src="" alt="">
+            </div>
+            <button onclick="closeModal()" style="background: #810652; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Tutup</button>
+        </div>
+    </div>
+
+      <div class="modal" id="paymentModal">
+        <div class="modal-content">
+            <h3 id="modalTitle">Pembayaran</h3>
+            <div style="margin: 20px 0; border: 2px dashed #bc216e; padding: 20px;">
+                <p>Scan QR Code Berikut:</p>
+                <img src="img/dana.PNG" alt="DANA" style="width: 200px; height: auto;">
+            </div>
+            <button onclick="closeModal()" style="background: #810652; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Tutup</button>
+        </div>
+    </div>
+
+    <script>
+        function openPayment(method) {
+            document.getElementById('modalTitle').innerText = "Bayar via " + method;
+            
+            // Logika baru: Mengambil elemen gambar dan mengubah sumbernya (src)
+            // Pastikan nama file Anda: qris.jpg, dana.jpg, gopay.jpg
+            document.getElementById('qrImage').src = method.toLowerCase() + ".jpg";
+            
+            document.getElementById('paymentModal').style.display = 'flex';
+        }
+        
+        function closeModal() { document.getElementById('paymentModal').style.display = 'none'; }
+
+        // Script Cincau Jatuh
+        function createCincau() {
+            const container = document.getElementById('cincau-container');
+            const cube = document.createElement('div');
+            cube.classList.add('cincau-cube');
+            cube.style.width = (Math.random() * 30 + 10) + 'px';
+            cube.style.height = cube.style.width;
+            cube.style.left = Math.random() * 100 + 'vw';
+            cube.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            container.appendChild(cube);
+            setTimeout(() => { cube.remove(); }, 5000);
+        }
+        setInterval(createCincau, 800);
+    </script>
+</body>
+</html>
